@@ -42,6 +42,10 @@ const swaggerSpecs = swaggerDoc(options)
 app.use('/emailverification/doc', swaggerUI.serve)
 app.use('/emailverification/doc', swaggerUI.setup(swaggerSpecs, uiOptions))
 
+app.get('/', (req, res)=>{
+    res.redirect('/emailverification/doc')
+})
+
 /**
  * @swagger
  * /api/email/send:
