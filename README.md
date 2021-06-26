@@ -1,6 +1,6 @@
 <h1>Email Verification</h1>
 
-# .env file
+### .env file
 
 PORT = 3201
 
