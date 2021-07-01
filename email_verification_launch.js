@@ -6,6 +6,7 @@ const swaggerUI = require('swagger-ui-express')
 const swaggerDoc = require('swagger-jsdoc')
 const emailControl = require('./controls/email.control.js')
 const fs = require('fs')
+const axios = require('axios')
 const redis = require('redis')
 const redisClient = redis.createClient({
     host: process.env.REDIS_HOST,
@@ -88,6 +89,7 @@ app.post('/api/email/send', (req, res)=>{
 
         let payload = {
             email: _email,
+            id: _id,
             token: _token
         }
 
@@ -131,10 +133,23 @@ app.get('/email/verify/:token', (req, res)=>{
                     let html = fs.readFileSync(__dirname + '/controls/templates/404.html')
                     res.send(html.toString('utf-8'))
                 }else{
-                    redisClient.set(req.params.token, req.params.token)
+                    redisClient.set(req.params.token, req.params.token, 'EX', 1800)
                     
-                    let html = fs.readFileSync(__dirname + '/controls/templates/200.html')
-                    res.send(html.toString('utf-8'))
+                    //Handle Verify Email
+                    let payload = {
+                        Email: decoded.email, 
+                        UserId: decoded.id
+                    }
+
+                    axios.post(process.env.USER_SERVER_LINK_VERIFY, payload).then(response => {
+                        if(response.data.status){
+                            let html = fs.readFileSync(__dirname + '/controls/templates/200.html')
+                            res.send(html.toString('utf-8'))
+                        }else{
+                            let html = fs.readFileSync(__dirname + '/controls/templates/404.html')
+                            res.send(html.toString('utf-8'))
+                        }
+                    })
                 }
             })
         }

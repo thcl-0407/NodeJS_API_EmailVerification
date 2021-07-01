@@ -13,3 +13,5 @@ PREFIX_LINK = "http://{domain}/email/verify/"
 REDIS_HOST = ""
 
 REDIS_PORT = 6379
+
+USER_SERVER_LINK_VERIFY = ""
