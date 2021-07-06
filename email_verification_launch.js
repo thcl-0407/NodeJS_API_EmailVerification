@@ -10,8 +10,7 @@ const axios = require('axios')
 const redis = require('redis')
 const redisClient = redis.createClient({
     host: process.env.REDIS_HOST,
-    port: process.env.REDIS_PORT,
-    password: process.env.REDIS_PASSWORD
+    port: process.env.REDIS_PORT
 })
 
 app.use(express.json())
@@ -150,9 +149,6 @@ app.get('/email/verify/:token', (req, res)=>{
                             let html = fs.readFileSync(__dirname + '/controls/templates/404.html')
                             res.send(html.toString('utf-8'))
                         }
-                    }).catch(()=>{
-                        let html = fs.readFileSync(__dirname + '/controls/templates/404.html')
-                        res.send(html.toString('utf-8'))
                     })
                 }
             })
