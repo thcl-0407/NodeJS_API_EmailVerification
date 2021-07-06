@@ -14,4 +14,6 @@ REDIS_HOST = ""
 
 REDIS_PORT = 6379
 
-USER_SERVER_LINK_VERIFY = ""
+REDIS_PASSWORD = ""
+
+USER_SERVER_LINK_VERIFY = "https://{domain}/api/user/verifyemail"
